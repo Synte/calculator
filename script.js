@@ -1,5 +1,3 @@
-//null, numberA, numberB, operator, equals, point
-
 function clickNumber() {
     let numStr = this.value;
 
@@ -40,7 +38,11 @@ function clickOperator() {
             screenPara.textContent = "0" + opStr;
             break;
         case "numberA":
-            screenPara.textContent += opStr;
+            if (screenPara.textContent.slice(-1) === ".") {
+                screenPara.textContent += "0" + opStr;
+            } else {
+                screenPara.textContent += opStr;
+            }
             break;
         case "numberB":
             numberA = equals(numberA, numberB, activeOperator);
@@ -55,7 +57,9 @@ function clickOperator() {
     }
 
     activeOperator = opFn;
+    activeOpStr = opStr;
     lastInputType = "operator";
+    containsPoint = false;
 }
 
 function clickEquals() {
@@ -73,39 +77,90 @@ function clickEquals() {
 
     // case "numberB":
     screenPara.textContent = equals(numberA, numberB, activeOperator);
+    calcPara.textContent = numberA + activeOpStr + numberB + " =";
     lastInputType = "equals";
+    containsPoint = false;
 }
 
 function clickClear() {
-    switch (lastInputType) {
-        case null:
-        case "numberA":
-        case "numberB":
-        case "operator":
-        case "equals":
-        case "point":
-    }
+    numberA = null;
+    numberB = null;
+    activeOperator = null;
+    activeOpStr = null;
+    lastInputType = null;
+    containsPoint = false;
+    screenPara.textContent = 0;
+    calcPara.textContent = "";
 }
 
 function clickPoint() {
+    if (containsPoint) return;
+
     switch (lastInputType) {
         case null:
+        case "equals":
+            screenPara.textContent = "0.";
+            numberA = 0;
+            lastInputType = "numberA";
+            break;
         case "numberA":
         case "numberB":
+            screenPara.textContent += ".";
+            break;
         case "operator":
-        case "equals":
-        case "point":
+            screenPara.textContent += "0.";
+            numberB = 0;
+            lastInputType = "numberB";
+            break;
     }
+
+    containsPoint = true;
 }
 
 function clickBack() {
-    switch (lastInputType) {
-        case null:
-        case "numberA":
-        case "numberB":
-        case "operator":
-        case "equals":
-        case "point":
+    let displayed = screenPara.textContent.match(regex);
+    let i = displayed.length - 1;
+
+    switch (displayed.length) {
+        case 0: return;
+        case 1: // numberA
+            if (displayed[i].length === 1) {
+                numberA = null;
+                lastInputType = null;
+                screenPara.textContent = "0";
+            } else {
+                if (displayed[i].slice(-1) === ".") {
+                    containsPoint = false;
+                }
+                
+                let newNumber = displayed[i].slice(0, displayed[i].length - 1);
+
+                numberA = Number(newNumber);
+                screenPara.textContent = newNumber;
+                lastInputType = "numberA";
+            }
+            break;
+        case 2: //operator
+            screenPara.textContent = displayed[0];
+            lastInputType = "numberA";
+            activeOperator = null;
+            break;
+        case 3: // numberB
+            if (displayed[i].length === 1) {
+                numberB = null;
+                lastInputType = "operator";
+                screenPara.textContent = displayed[0] + " " + displayed[1] + " ";
+            } else {
+                if (displayed[i].slice(-1) === ".") {
+                    containsPoint = false;
+                }
+
+                let newNumber = displayed[i].slice(0, displayed[i].length - 1);
+
+                numberB = Number(newNumber);
+                screenPara.textContent = displayed[0] + " " + displayed[1] + " " + newNumber;
+                lastInputType = "numberB";
+            }
     }
 }
 
@@ -125,6 +180,7 @@ const clearButton = document.querySelector("#clear");
 const backButton = document.querySelector("#back");
 
 const screenPara = document.querySelector("#screen");
+const calcPara = document.querySelector("#calculation");
 
 /* DOM Object Events */
 numberButtons.forEach(button => button.addEventListener("click", clickNumber));
@@ -138,7 +194,9 @@ backButton.addEventListener("click", clickBack);
 let numberA = null;
 let numberB = null;
 let activeOperator = null;
+let activeOpStr = null;
 let lastInputType = null;
+let containsPoint = false;
 const regex = /[^\s]+/g;
 
 /* Special Object Literal */
