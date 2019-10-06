@@ -1,19 +1,144 @@
 * {
     padding: 0;
     margin: 0;
+    font-family: 'Roboto Mono', monospace;
 }
 
 #calculator {
-    width: 300px;
+    width: fit-content;
+    margin: auto;
+    margin-top: 100px;
+    background-color: paleturquoise;
+    padding: 20px;
+    border-radius: 8px;
+    border-bottom: 6px solid turquoise;
+    border-right: 3px solid turquoise;
+}
+
+#logo {
+    color: white;
+    background-color: rgb(107, 107, 107);
+    padding: 2px 6px 0;
+    width: fit-content;
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
+    user-select: none;
+    font-size: 14px;
+    margin-bottom: -4px;
+}
+
+#display {
+    border: 6px solid rgb(107, 107, 107);
+    border-bottom: 16px solid rgb(107, 107, 107);
+    margin-bottom: 10px;
+    text-align: right;
+    padding: 0 8px;
+    background-color: seashell;
+    
+}
+
+#calculation {
+    height: 20px;
+    font-size: 16px;
+    padding-top: 4px;
+}
+
+#screen {
+    font-size: 32px;
 }
 
 #buttons {
     display: grid;
-    grid-template-columns: repeat(5, 40px);
+    grid-template-columns: repeat(5, 80px);
     grid-template-rows: repeat(4, 1fr);
-    gap: 4px;
+    gap: 10px;
 }
 
+button {
+    padding: 6px 4px;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    user-select: none;
+    font-size: 32px;
+}
+
+button:focus { outline: none; }
+
+/* Clear button */
+#clear {
+    background-color: rgb(182, 70, 70);
+    color: white;
+    font-weight: bold;
+    border-bottom: 2px solid rgb(109, 0, 0);
+    border-right: 2px solid rgb(109, 0, 0);
+}
+
+#clear:hover {
+    background-color: rgb(161, 61, 61);
+}
+
+#clear:active {
+    border: none;
+    border-top: 2px solid rgb(109, 0, 0);
+    border-left: 2px solid rgb(109, 0, 0);
+}
+
+/* Number buttons */
+.numbers {
+    background-color: hsl(0, 0%, 86%);
+    border-bottom: 2px solid hsl(0, 0%, 50%);
+    border-right: 2px solid hsl(0, 0%, 50%);
+}
+
+.numbers:active {
+    border: none;
+    border-top: 2px solid hsl(0, 0%, 50%);
+    border-left: 2px solid hsl(0, 0%, 50%);
+}
+
+.numbers:hover {
+    background-color: hsl(0, 0%, 75%);
+}
+
+/* Operator, point, and back buttons */
+.operators, #point, #back {
+    background-color: lightslategray;
+    color: white;
+    border-bottom: 2px solid rgb(35, 59, 59);
+    border-right: 2px solid rgb(35, 59, 59);
+}
+
+.operators:hover, #point:hover, #back:hover {
+    background-color: rgb(104, 118, 133);
+}
+
+.operators:active, #point:active, #back:active {
+    border: none;
+    border-top: 2px solid rgb(35, 59, 59);
+    border-left: 2px solid rgb(35, 59, 59);
+}
+
+/* Equals button */
+#equals {
+     background-color: darkseagreen;
+     color: white;
+     font-weight: bold;
+     border-bottom: 2px solid rgb(94, 122, 94);
+     border-right: 2px solid rgb(94, 122, 94);
+}
+
+#equals:hover {
+    background-color: rgb(127, 165, 127);
+}
+
+#equals:active {
+    border: none;
+    border-top: 2px solid rgb(94, 122, 94);
+    border-left: 2px solid rgb(94, 122, 94);
+}
+
+/* Button positions */
 #one { grid-area: 3 / 1; }
 #two { grid-area: 3 / 2; }
 #three { grid-area: 3 / 3; }
