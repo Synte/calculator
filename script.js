@@ -1,3 +1,25 @@
+function simulateClick(e) {
+    if (e.key === "0") { document.querySelector("#zero").click(); }
+    else if (e.key === "1") { document.querySelector("#one").click(); }
+    else if (e.key === "2") { document.querySelector("#two").click(); }
+    else if (e.key === "3") { document.querySelector("#three").click(); }
+    else if (e.key === "4") { document.querySelector("#four").click(); }
+    else if (e.key === "5") { document.querySelector("#five").click(); }
+    else if (e.key === "6") { document.querySelector("#six").click(); }
+    else if (e.key === "7") { document.querySelector("#seven").click(); }
+    else if (e.key === "8") { document.querySelector("#eight").click(); }
+    else if (e.key === "9") { document.querySelector("#nine").click(); }
+    else if (e.key === ".") { document.querySelector("#point").click(); }
+    else if (e.key === "+") { document.querySelector("#add").click(); }
+    else if (e.key === "-") { document.querySelector("#subtract").click(); }
+    else if (e.key === "*") { document.querySelector("#multiply").click(); }
+    else if (e.key === "/") { document.querySelector("#divide").click(); }
+    else if (e.key === "Backspace") { document.querySelector("#back").click(); }
+    else if (e.key === "=" || e.key === "Enter") { document.querySelector("#equals").click(); }
+    else if (e.key === "C" || e.key === "c") { document.querySelector("#clear").click(); }
+    else return;
+}
+
 function clickNumber() {
     let numStr = this.value;
 
@@ -161,6 +183,7 @@ function clickBack() {
                 screenPara.textContent = displayed[0] + " " + displayed[1] + " " + newNumber;
                 lastInputType = "numberB";
             }
+            break;
     }
 }
 
@@ -189,6 +212,8 @@ equalsButton.addEventListener("click", clickEquals);
 pointButton.addEventListener("click", clickPoint);
 clearButton.addEventListener("click", clickClear);
 backButton.addEventListener("click", clickBack);
+
+window.addEventListener("keydown", simulateClick);
 
 /* Global Variables */
 let numberA = null;
