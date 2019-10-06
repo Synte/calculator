@@ -33,18 +33,23 @@
     margin-bottom: 10px;
     text-align: right;
     padding: 0 8px;
-    background-color: seashell;
-    
+    background-color: seashell;    
 }
 
 #calculation {
     height: 20px;
     font-size: 16px;
     padding-top: 4px;
+    width: 412px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 #screen {
+    width: 412px;
     font-size: 32px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 #buttons {
@@ -86,19 +91,19 @@ button:focus { outline: none; }
 
 /* Number buttons */
 .numbers {
-    background-color: hsl(0, 0%, 86%);
-    border-bottom: 2px solid hsl(0, 0%, 50%);
-    border-right: 2px solid hsl(0, 0%, 50%);
+    background-color: papayawhip;
+    border-bottom: 2px solid rgb(200, 185, 164);
+    border-right: 2px solid rgb(200, 185, 164);
 }
 
 .numbers:active {
     border: none;
-    border-top: 2px solid hsl(0, 0%, 50%);
-    border-left: 2px solid hsl(0, 0%, 50%);
+    border-top: 2px solid rgb(200, 185, 164);
+    border-left: 2px solid rgb(200, 185, 164);
 }
 
 .numbers:hover {
-    background-color: hsl(0, 0%, 75%);
+    background-color: rgb(240, 223, 198);
 }
 
 /* Operator, point, and back buttons */
