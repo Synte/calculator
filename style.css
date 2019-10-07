@@ -4,6 +4,10 @@
     font-family: 'Roboto Mono', monospace;
 }
 
+html {
+    background-image: url("bg.png");
+}
+
 #calculator {
     width: fit-content;
     margin: auto;

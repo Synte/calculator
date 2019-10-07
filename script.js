@@ -26,23 +26,31 @@ function clickNumber() {
     switch (lastInputType) {
         case null:
         case "equals":
-            if (numStr === "0") return;
             screenPara.textContent = numStr;
             numberA = Number(numStr);
             lastInputType = "numberA";
             break;
         case "numberA":
-            screenPara.textContent += numStr;
+            if (numberA === 0 && numStr === "0" && containsPoint === false) return;
+            if (numberA === 0 && containsPoint === false) {
+                screenPara.textContent = numStr
+            } else {
+                screenPara.textContent += numStr;
+            }
             numberA = Number(screenPara.textContent);
             lastInputType = "numberA";
             break;
         case "numberB":
-            screenPara.textContent += numStr;
+            if (numberB === 0 && numStr === "0" && containsPoint === false) return;
+            if (numberB === 0 && containsPoint === false) {
+                screenPara.textContent = numStr
+            } else {
+                screenPara.textContent += numStr;
+            }
             numberB = Number(screenPara.textContent.match(regex)[2]);
             lastInputType = "numberB";
             break;
         case "operator":
-            if (numStr === "0") return;
             screenPara.textContent += numStr;
             numberB = Number(numStr);
             lastInputType = "numberB";
@@ -67,6 +75,12 @@ function clickOperator() {
             }
             break;
         case "numberB":
+            calcPara.textContent = numberA + activeOpStr + numberB + " ="
+            if (activeOperator === ops["divide"] && numberB === 0) {
+                screenPara.textContent = DIVIDE_BY_ZERO_MSG;
+                lastInputType = null;
+                return;
+            }
             numberA = equals(numberA, numberB, activeOperator);
             // fallthrough;
         case "operator":
@@ -87,7 +101,11 @@ function clickOperator() {
 function clickEquals() {
     switch (lastInputType) {
         case null:
+            return;
         case "numberA":
+            calcPara.textContent = numberA + " =";
+            screenPara.textContent = numberA;
+            containsPoint = false;
             return;
         case "operator":
             numberB = numberA;
@@ -98,9 +116,14 @@ function clickEquals() {
     }
 
     // case "numberB":
-    screenPara.textContent = equals(numberA, numberB, activeOperator);
+    if (activeOperator === ops["divide"] && numberB === 0) {
+        screenPara.textContent = DIVIDE_BY_ZERO_MSG;
+        lastInputType = null;
+    } else {
+        screenPara.textContent = equals(numberA, numberB, activeOperator);
+        lastInputType = "equals";
+    }
     calcPara.textContent = numberA + activeOpStr + numberB + " =";
-    lastInputType = "equals";
     containsPoint = false;
 }
 
@@ -116,6 +139,8 @@ function clickClear() {
 }
 
 function clickPoint() {
+    let matches = screenPara.textContent.match(regex);
+    if (matches[matches.length - 1].includes(".")) { containsPoint = true; }
     if (containsPoint) return;
 
     switch (lastInputType) {
@@ -140,6 +165,7 @@ function clickPoint() {
 }
 
 function clickBack() {
+    if (lastInputType === null) return;
     let displayed = screenPara.textContent.match(regex);
     let i = displayed.length - 1;
 
@@ -166,6 +192,7 @@ function clickBack() {
             screenPara.textContent = displayed[0];
             lastInputType = "numberA";
             activeOperator = null;
+            containsPoint = numberA.toString().includes(".");
             break;
         case 3: // numberB
             if (displayed[i].length === 1) {
@@ -223,6 +250,8 @@ let activeOpStr = null;
 let lastInputType = null;
 let containsPoint = false;
 const regex = /[^\s]+/g;
+
+const DIVIDE_BY_ZERO_MSG = "Ouch, that hurts."
 
 /* Special Object Literal */
 const ops = {
